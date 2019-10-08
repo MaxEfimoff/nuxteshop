@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="content">
-        {{ product.subtitle }}
+        {{ product.subtitle | shortenText(35) }}
         <br>
       </div>
       <div class="price-box">
