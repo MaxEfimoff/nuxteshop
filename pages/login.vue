@@ -87,6 +87,12 @@ export default {
   methods: {
     login() {
       this.$v.formData.$touch();
+
+      if(!this.$v.$invalid) {
+        this.$store.dispatch('auth/login', this.formData)
+        .then(() => this.$router.push('/'))
+        .catch((error) => this.$toasted.show('Wrong email or password'), {duration: 2000})
+      }
     }
   }
 }
