@@ -5,8 +5,11 @@
       <div class="container">
         <h1 class="title">Bikes Avaible</h1>
         <div class="columns">
-          <div class="column is-one-quarter">
-            <ItemCard />
+          <div
+            v-for="product in products"
+            :key="product._id"
+            class="column is-one-quarter">
+            <ItemCard :product="product"/>
           </div>
         </div>
       </div>
@@ -29,8 +32,19 @@ import Banner from '~/components/shared/Banner';
 import ItemCard from '~/components/ItemCard';
 import BlogCard from '~/components/BlogCard';
 
+import { mapState, mapActions } from 'vuex';
+
 export default {
-  components: {Banner, ItemCard, BlogCard}
+  components: {Banner, ItemCard, BlogCard},
+  mounted() {
+    this.getProducts();
+  },
+  computed: {
+    ...mapState('products', ['products']),
+  },
+  methods: {
+    ...mapActions("products", ['getProducts']),
+  },
 }
 </script>
 
