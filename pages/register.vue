@@ -13,77 +13,144 @@
               <div class="field">
                 <div class="control">
                   <input
+                    v-model="formData.username"
+                    @blur="$v.formData.username.$touch()"
+                    autofocus=""
                     class="input is-large"
                     type="text"
                     placeholder="Username">
-                  <!-- <div class="form-error">
-                    <span class="help is-danger">Username is required</span>
-                  </div> -->
+                  <div
+                    v-if="$v.formData.username.$error"
+                    class="form-error">
+                    <span
+                      v-if="!$v.formData.username.required"
+                      class="help is-danger">
+                      Username is required
+                    </span>
+                    <span
+                      v-if="!$v.formData.username.minLength"
+                      class="help is-danger">
+                      Username minimum length is 6 characters
+                    </span>
+                  </div>
                 </div>
               </div>
               <div class="field">
                 <div class="control">
                   <input
+                    v-model="formData.name"
+                    @blur="$v.formData.name.$touch()"
                     class="input is-large"
                     type="text"
                     placeholder="Name">
-                  <!-- <div class="form-error">
-                    <span class="help is-danger">Name is required</span>
-                  </div> -->
+                  <div
+                    v-if="$v.formData.name.$error"
+                    class="form-error">
+                    <span
+                      v-if="!$v.formData.name.required"
+                      class="help is-danger">
+                      Name is required
+                    </span>
+                    <span
+                      v-if="!$v.formData.name.minLength"
+                      class="help is-danger">
+                      Name minimum length is 6 characters
+                    </span>
+                  </div>
                 </div>
               </div>
               <div class="field">
                 <div class="control">
                   <input
+                    v-model="formData.email"
+                    @blur="$v.formData.email.$touch()"
                     class="input is-large"
                     type="email"
                     placeholder="Your Email">
-                  <!-- <div class="form-error">
-                    <span class="help is-danger">Email is required</span>
-                    <span class="help is-danger">Email address is not valid</span>
-                  </div> -->
+                  <div
+                    v-if="$v.formData.email.$error"
+                    class="form-error">
+                    <span
+                      v-if="!$v.formData.email.required"
+                      class="help is-danger">
+                      Email is required
+                    </span>
+                    <span
+                      v-if="!$v.formData.email.email"
+                      class="help is-danger">
+                      Email address is not valid
+                    </span>
+                  </div>
                 </div>
               </div>
               <div class="field">
                 <div class="control">
                   <input
+                    v-model="formData.avatar"
+                    @blur="$v.formData.avatar.$touch()"
                     class="input is-large"
                     type="text"
                     placeholder="Avatar"
                     autocomplete="">
-                  <!-- <div class="form-error">
-                    <span class="help is-danger">Url format is not valid!</span>
-                    <span class="help is-danger">Selected file type is not valid!</span>
-                  </div> -->
+                  <div
+                    v-if="$v.formData.avatar.$error"
+                    class="form-error">
+                    <span
+                      v-if="!$v.formData.avatar.url"
+                      class="help is-danger">
+                      Url format is not valid!
+                    </span>
+                    <!-- <span class="help is-danger">Selected file type is not valid!</span> -->
+                  </div>
                 </div>
               </div>
               <div class="field">
                 <div class="control">
                   <input
+                    v-model="formData.password"
+                    @blur="$v.formData.password.$touch()"
                     class="input is-large"
                     type="password"
                     placeholder="Your Password"
                     autocomplete="new-password">
-                  <!-- <div class="form-error">
-                    <span class="help is-danger">Password is required</span>
-                    <span class="help is-danger">Password minimum length is 6 letters</span>
-                  </div> -->
+                  <div
+                    v-if="$v.formData.password.$error"
+                    class="form-error">
+                    <span
+                      v-if="!$v.formData.password.required"
+                      class="help is-danger">Password is required</span>
+                    <span
+                      v-if="!$v.formData.password.minLength"
+                      class="help is-danger">Password minimum length is 6 letters</span>
+                  </div>
                 </div>
               </div>
               <div class="field">
                 <div class="control">
                   <input
+                    v-model="formData.passwordConfirmation"
+                    @blur="$v.formData.passwordConfirmation.$touch()"
                     class="input is-large"
                     type="password"
                     placeholder="Password Confirmation"
                     autocomplete="off">
-                  <!-- <div class="form-error">
-                    <span class="help is-danger">Password is required</span>
-                    <span class="help is-danger">Password confirmation should be the same as password</span>
-                  </div> -->
+                  <div
+                    v-if="$v.formData.passwordConfirmation.$error"
+                    class="form-error">
+                    <span
+                      v-if="!$v.formData.passwordConfirmation.required"
+                      class="help is-danger">Password Confirmation is required</span>
+                    <span
+                      v-if="!$v.formData.passwordConfirmation.sameAs"
+                      class="help is-danger">Password confirmation should be the same as password</span>
+                  </div>
                 </div>
               </div>
-              <button @click="() => {}" type="submit" class="button is-block is-info is-large is-fullwidth">Register</button>
+              <button
+                :disabled="$v.formData.$invalid"
+                @click.prevent="register"
+                type="submit"
+                class="button is-block is-info is-large is-fullwidth">Register</button>
             </form>
           </div>
           <p class="has-text-grey">
@@ -96,6 +163,61 @@
     </div>
   </section>
 </template>
+
+<script>
+import { required, email, minLength, url, sameAs } from 'vuelidate/lib/validators';
+
+export default {
+  data() {
+    return {
+      formData: {
+        username: null,
+        name: null,
+        email: null,
+        avatar: null,
+        password: null,
+        passwordConfirmation: null
+      }
+    }
+  },
+  validations: {
+    formData: {
+      username: {
+        required,
+        minLength: minLength(6)
+      },
+      name: {
+        required,
+        minLength: minLength(6)
+      },
+      email: {
+        email,
+        required,
+        minLength: minLength(6)
+      },
+      avatar: {
+        required,
+        url
+      },
+      password: {
+        required,
+        minLength: minLength(6)
+      },
+      passwordConfirmation: {
+        required,
+        minLength: minLength(6),
+        sameAs: sameAs('password')
+      }
+    }
+  },
+  methods: {
+    register() {
+      this.$v.formData.$touch();
+      console.log(this.formData);
+    }
+  }
+}
+</script>
 
 <style scoped>
   .hero.is-success {

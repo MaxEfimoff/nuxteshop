@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     login() {
-      this.$v.formData.$touch()
+      this.$v.formData.$touch();
     }
   }
 }
