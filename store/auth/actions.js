@@ -1,5 +1,4 @@
 import axios from 'axios';
-import store from '..';
 
 function login({ commit }, data) {
   return new Promise((resolve, reject) => {
@@ -14,9 +13,19 @@ function login({ commit }, data) {
 function logout({ commit }) {
   return new Promise((resolve, reject) => {
     axios.post('/api/users/logout')  
-      .then((response) => {
+      .then(() => {
         commit('SET_USER', null);
       })
+      .catch(error => console.log(error));
+  });
+}
+
+function register({ commit }, data) {
+  return new Promise((resolve, reject) => {
+    axios.post('/api/users/register', data)  
+      // .then((response) => {
+      //   commit('SET_USER', response.data);
+      // })
       .catch(error => console.log(error));
   });
 }
@@ -41,4 +50,5 @@ export {
   login,
   logout,
   getAuthUser,
+  register
 };

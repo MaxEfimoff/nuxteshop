@@ -173,6 +173,7 @@ import { required, email, minLength, url, sameAs } from 'vuelidate/lib/validator
 import { supportedFileType } from '@/helpers/validators'
 
 export default {
+  middleware: 'guest',
   data() {
     return {
       formData: {
@@ -219,7 +220,12 @@ export default {
   methods: {
     register() {
       this.$v.formData.$touch();
-      console.log(this.formData);
+      
+      if(!this.$v.$invalid) {
+        this.$store.dispatch('auth/register', this.formData)
+        .then(() => this.$router.push('/login'))
+        .catch((error) => this.$toasted.show('Wrong email or password'), {duration: 2000})
+      }
     }
   }
 }
