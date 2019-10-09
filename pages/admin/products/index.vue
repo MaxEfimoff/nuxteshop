@@ -4,7 +4,7 @@
       <template #actionMenu>
         <div class="full-page-takeover-header-button">
           <nuxt-link
-            to="#"
+            to="/admin/product/createproduct"
             class="button is-medium is-light">
             New Product
           </nuxt-link>
@@ -41,12 +41,11 @@
                       <p class="title">{{ product.title }}</p>
                       <p class="subtitle">{{ product.subtitle }}</p>
                       <span class="tag"
-                            :class="'is-success'">Published</span>
+                            :class="'is-success'">{{ product.status }}</span>
                     </div>
                     <div class="column is-narrow flex-centered">
                       <div class="price-title">
-                        <!-- {{product.price || 0}} $ -->
-                        {{ product.price }}
+                        {{ product.price || 0}}
                       </div>
                     </div>
                   </div>

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import products from './products';
 import admin from './admin';
 import auth from './auth';
+import category from './category';
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ export default function () {
     modules: {
       products,
       admin,
+      category,
       auth
     },
     strict: process.env.DEV,
