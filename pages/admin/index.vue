@@ -1,20 +1,33 @@
 <template>
-  <div class="instructor-page">
+  <div class="admin-page">
+    <Header title="Add new products">
+      <template #actionMenu>
+        <div class="full-page-takeover-header-button">
+          <nuxt-link
+            to="#"
+            class="button is-medium is-light">
+            New Product
+          </nuxt-link>
+          <nuxt-link
+            to="/"
+            class="button is-danger is-medium is-inverted is-outlined">
+            User
+          </nuxt-link>
+        </div>
+      </template>
+    </Header>  
     <div class="centered">
       <div class="columns">
-        <!-- Go to /instructor/courses -->
-        <div class="box" @click="() => {}">
+        <div class="box" @click="() => $router.push('/admin/products')">
           <div>
             Products
           </div>
         </div>
-        <!-- Go to /instructor/blogs -->
         <div class="box" @click="() => {}">
           <div>
             Blogs
           </div>
         </div>
-        <!-- Go to /instructor/heroes -->
         <div class="box" @click="() => {}">
           <div>
             Users
@@ -25,12 +38,18 @@
   </div>
 </template>
 <script>
+import Header from '../../components/shared/Header';
+
 export default {
-  middleware: 'admin'
+  middleware: 'admin',
+  layout: 'admin',
+  components: {
+    Header
+  }
 }
 </script>
 <style scoped lang="scss">
-  .instructor-page {
+  .admin-page {
     .centered {
       margin-top: 100px;
       display: flex;
@@ -40,7 +59,7 @@ export default {
     }
   }
   .box {
-    height: 300px;
+    height: 150px;
     width: 300px;
     display: flex;
     margin: 5px;
