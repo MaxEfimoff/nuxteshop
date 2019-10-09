@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-function getProducts({ commit }) {
+function getUserProducts({ commit }) {
   return new Promise((resolve, reject) => {
-    axios.get('/api/products')  
+    axios.get('/api/products/user-products')  
       .then((response) => {
         commit('SET_PRODUCTS', response.data);
       })
@@ -12,5 +12,5 @@ function getProducts({ commit }) {
 
 
 export {
-  getProducts,
+  getUserProducts
 };

@@ -22,7 +22,7 @@
           <div class="column is-8 is-offset-2">
             <h1 class="products-page-title">Your Products</h1>
             <!-- Iterate Products -->
-            <div class="tile is-ancestor">
+            <div v-for="product in products" :key="product._id" class="tile is-ancestor">
               <div class="tile is-parent is-12">
                 <!-- Navigate to product manage page -->
                 <nuxt-link :to="'#'" class="tile tile-overlay-container is-child box">
@@ -34,19 +34,19 @@
                   <div class="columns">
                     <div class="column is-narrow">
                       <figure class="image is-4by2 is-128x128">
-                        <img :src="'https://www.canyon.com/dw/image/v2/BCML_PRD/on/demandware.static/-/Sites-canyon-master/default/dw3da07855/images/full/full_dude-/2018/full_dude-cf-9-unlimited_c1023.png?sw=416&sh=234&sm=fit&sfrm=png'">
+                        <img :src="product.image">
                       </figure>
                     </div>
                     <div class="column">
-                      <p class="title">Super fatbike Canyon Dude</p>
-                      <p class="subtitle">Ride on sand or snow with Canyon</p>
+                      <p class="title">{{ product.title }}</p>
+                      <p class="subtitle">{{ product.subtitle }}</p>
                       <span class="tag"
                             :class="'is-success'">Published</span>
                     </div>
                     <div class="column is-narrow flex-centered">
                       <div class="price-title">
                         <!-- {{product.price || 0}} $ -->
-                        178.99 $
+                        {{ product.price }}
                       </div>
                     </div>
                   </div>
@@ -61,11 +61,21 @@
 </template>
 <script>
 import Header from '../../../components/shared/Header';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   layout: 'admin',
   components: {
     Header
+  },
+  created() {
+    this.getUserProducts();
+  },
+  computed: {
+    ...mapState('admin', ['products'])
+  },
+  methods: {
+    ...mapActions('admin', ['getUserProducts'])
   }
 }
 </script>

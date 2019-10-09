@@ -41,7 +41,6 @@
 import Header from '../../components/shared/Header';
 
 export default {
-  middleware: 'admin',
   layout: 'admin',
   components: {
     Header
