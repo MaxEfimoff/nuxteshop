@@ -10,6 +10,7 @@
           <div class="select is-large">
             <select
               v-model="formData.category"
+              @blur="$v.formData.category.$touch()"
               @change="emitFormData">
               <option value='default'>Select Category</option>
               <option
@@ -20,6 +21,9 @@
                 {{ category.name }}
               </option>
             </select>
+            <div v-if="$v.formData.category.$dirty && !isValid" class="form-error">
+              <span class="help is-danger">Category is required</span>
+            </div>
           </div>
         </div>
       </div>
@@ -64,6 +68,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.help.is-danger {
+  text-align: left;
+}
 </style>

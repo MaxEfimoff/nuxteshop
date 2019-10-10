@@ -34,14 +34,17 @@
                   <div class="columns">
                     <div class="column is-narrow">
                       <figure class="image is-4by2 is-128x128">
-                        <img :src="product.image">
+                        <img :src="product.image || 'https://via.placeholder.com/150'">
                       </figure>
                     </div>
                     <div class="column">
                       <p class="title">{{ product.title }}</p>
-                      <p class="subtitle">{{ product.subtitle }}</p>
+                      <p class="subtitle">
+                        {{ product.subtitle || 'No subtitle provided'}}
+                      </p>
                       <span class="tag"
-                            :class="'is-success'">{{ product.status }}</span>
+                        :class="createStatusClass(product.status)">{{ product.status || 'No status provided' }}
+                      </span>
                     </div>
                     <div class="column is-narrow flex-centered">
                       <div class="price-title">
@@ -74,7 +77,14 @@ export default {
     ...mapState('admin', ['products'])
   },
   methods: {
-    ...mapActions('admin', ['getUserProducts'])
+    ...mapActions('admin', ['getUserProducts']),
+    createStatusClass(status) {
+      if(!status) return '';
+      if (status === 'published') return 'is-success';
+      if (status === 'active') return 'is-primary';
+      if (status === 'inactive') return 'is-warning';
+      if (status === 'deleted') return 'is-danger';
+    }
   }
 }
 </script>

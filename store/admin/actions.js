@@ -10,7 +10,17 @@ function getUserProducts({ commit }) {
   });
 }
 
+function createProduct({ commit }, formData) {
+  return new Promise((resolve, reject) => {
+    axios.post('/api/products', formData)  
+      .then((response) => {
+        commit('SET_PRODUCTS', response.data);
+      })
+      .catch(error => console.log(error));
+  });
+}
 
 export {
-  getUserProducts
+  getUserProducts,
+  createProduct
 };

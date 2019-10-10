@@ -40,7 +40,7 @@
                 <button
                   v-else
                   :disabled="!canProceed"
-                  @click="() => {}"
+                  @click="createProduct"
                   class="button is-success is-large float-right">
                   Confirm
                 </button>
@@ -113,6 +113,11 @@ export default {
     mergeFormData({ data, isValid }) {
       this.formData = { ...this.formData, ...data };
       this.canProceed = isValid;
+    },
+    createProduct() {
+      this.$store.dispatch('admin/createProduct', this.formData)
+        .then(() => this.$router.push('/admin/products'))
+        .catch((error) => this.$toasted.show('Wrong email or password'), {duration: 2000})
     }
   }
 }
