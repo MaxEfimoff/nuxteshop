@@ -88,7 +88,18 @@ import Price from '~/components/admin/Price';
 import Status from '~/components/admin/Status';
 import MultiComponentMixin from '~/mixins/MultiComponentMixin';
 
+import { mapState, mapActions } from 'vuex';
+
 export default {
+  mounted() {
+    this.getProduct(this.$route.params.id);
+  },
+  computed: {
+    ...mapState('products', ['product']),
+  },
+  methods: {
+    ...mapActions("products", ['getProduct']),
+  },
   mixins: [MultiComponentMixin],
   layout: 'instructor',
   components: { 

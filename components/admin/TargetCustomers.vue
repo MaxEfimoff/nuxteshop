@@ -5,32 +5,20 @@
     </header>
     <div class="card-content card-section">
       <form>
-        <div class="field">
-          <div class="control">
-            <input
-              class="input is-large"
-              type="text"
-              placeholder="What will customers get from your product ?"
-              >
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <input
-              class="input is-large"
-              type="text"
-              placeholder="What are the requirements for the product ?"
-              >
-          </div>
-        </div>
+        <MultiLineTextInput label="How will customers benefit"/>
+        <MultiLineTextInput label="What experience should customer have?"/>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-export default {
+import MultiLineTextInput from '~/components/form/MultiLineTextInput';
 
+export default {
+  components: {
+    MultiLineTextInput
+  }
 }
 </script>
 
