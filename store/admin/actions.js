@@ -20,7 +20,29 @@ function createProduct({ commit }, formData) {
   });
 }
 
+function getProduct({ commit }, id) {
+  return new Promise((resolve, reject) => {
+    axios.get(`/api/products/${id}`)  
+      .then((response) => {
+        commit('SET_PRODUCT', response.data);
+      })
+      .catch(error => console.log(error));
+  });
+}
+
+function updateLine({ commit }, {field, value, index}) {
+//   return new Promise((resolve, reject) => {
+//     axios.get(`/api/products/${id}`)  
+//       .then((response) => {
+        commit('SET_LINE_VALUE', {field, value, index});
+  //     })
+  //     .catch(error => console.log(error));
+  // });
+}
+
 export {
   getUserProducts,
-  createProduct
+  createProduct,
+  getProduct,
+  updateLine
 };

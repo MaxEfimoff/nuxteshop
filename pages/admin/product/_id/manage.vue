@@ -66,11 +66,10 @@
           </div>
           <div class="column">
             <keep-alive>
-              <component :is="activeComponent" />
-              <!-- <TargetCustomers />
-              <LandingPage />
-              <Price />
-              <Status /> -->
+              <component
+                :is="activeComponent" 
+                :product="product"
+                />
             </keep-alive>
           </div>
         </div>
@@ -95,10 +94,10 @@ export default {
     this.getProduct(this.$route.params.id);
   },
   computed: {
-    ...mapState('products', ['product']),
+    ...mapState('admin', ['product']),
   },
   methods: {
-    ...mapActions("products", ['getProduct']),
+    ...mapActions("admin", ['getProduct']),
   },
   mixins: [MultiComponentMixin],
   layout: 'instructor',

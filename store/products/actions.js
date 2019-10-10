@@ -10,18 +10,7 @@ function getProducts({ commit }) {
   });
 }
 
-function getProduct({ commit }, id) {
-  return new Promise((resolve, reject) => {
-    axios.get(`/api/products/${id}`)  
-      .then((response) => {
-        commit('SET_PRODUCT', response.data);
-      })
-      .catch(error => console.log(error));
-  });
-}
-
 
 export {
   getProducts,
-  getProduct
 };
