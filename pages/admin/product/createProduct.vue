@@ -23,7 +23,7 @@
           <div class="container">
             <div class="full-page-footer-col">
               <div v-if="!isFirstStep">
-                <a @click.prevent="decrementStep" class="button is-large">Previous</a>
+                <a @click.prevent="_decrementStep" class="button is-large">Previous</a>
               </div>
               <div v-else class="empty-container">
               </div>
@@ -33,7 +33,7 @@
                 <button
                   v-if="!isLastStep"
                   :disabled="!canProceed"
-                  @click.prevent="incrementStep"
+                  @click.prevent="_incrementStep"
                   class="button is-large float-right">
                   Continue
                 </button>
@@ -57,10 +57,12 @@
 import Header from '~/components/shared/Header';
 import ProductCreateStep1 from '~/components/admin/productCreateStep1';
 import ProductCreateStep2 from '~/components/admin/productCreateStep2';
+import MultiComponentMixin from '~/mixins/MultiComponentMixin';
 import { mapState, mapActions } from 'vuex';
 
 export default {
   layout: 'instructor',
+  mixins: [MultiComponentMixin],
   components: {
     Header,
     ProductCreateStep1,
@@ -71,7 +73,6 @@ export default {
   },
   data() {
     return {
-      activeStep: 1,
       steps: ['ProductCreateStep1', 'ProductCreateStep2'],
       canProceed: false,
       formData: {
@@ -82,32 +83,19 @@ export default {
   },
   computed: {
     ...mapState('category', ['categories']),
-    stepsLength() {
-      return this.steps.length;
-    },
-    isLastStep() {
-      return this.activeStep === this.steps.length;
-    },
-    isFirstStep() {
-      return this.activeStep === 1;
-    },
-    progress() {
-      return `${100 / this.stepsLength * this.activeStep}%`
-    },
-    activeComponent() {
-      return this.steps[this.activeStep - 1]
-    }
   },
   methods: {
     ...mapActions("category", ['getCategories']),
-    incrementStep() {
-      return this.activeStep++;
+    _incrementStep() {
+      // Calling method from the mixin
+      this.incrementStep()
       this.$nextTick(() => {
         this.canProceed = this.$refs.activeComponent.isValid;
       })
     },
-    decrementStep() {
-      return this.activeStep--;
+    _decrementStep() {
+      // Calling method from the mixin
+      this.decrementStep()
       this.canProceed = true;
     },
     mergeFormData({ data, isValid }) {

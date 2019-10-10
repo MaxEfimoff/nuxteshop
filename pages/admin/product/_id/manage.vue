@@ -1,4 +1,5 @@
 <template>
+<div class="full-page-takeover-window">
   <div class="manage-page">
     <Header
       title="Some product name"
@@ -25,14 +26,18 @@
               <ul class="menu-list">
                 <li>
                   <!-- display Targetcustomers -->
-                  <a @click.prevent="navigateTo(1)"
-                     :class="'active'">Target Your customers
+                  <a 
+                    @click.prevent="navigateTo(1)"
+                    :class="activeComponentClass(1)">
+                    Target Your customers
                   </a>
                 </li>
                 <li>
                   <!-- display LandingPage -->
-                  <a @click.prevent="navigateTo(2)">
-                    Product Landing Page
+                  <a
+                    @click.prevent="navigateTo(2)"
+                    :class="activeComponentClass(2)">
+                      Product Landing Page
                   </a>
                 </li>
               </ul>
@@ -42,13 +47,17 @@
               <ul class="menu-list">
                 <li>
                   <!-- display Price -->
-                  <a @click.prevent="navigateTo(3)">
+                  <a 
+                    @click.prevent="navigateTo(3)"
+                    :class="activeComponentClass(3)">
                     Price
                   </a>
                 </li>
                 <li>
                   <!-- display Status -->
-                  <a @click.prevent="navigateTo(4)">
+                  <a 
+                    @click.prevent="navigateTo(4)"
+                    :class="activeComponentClass(4)">
                     Status
                   </a>
                 </li>
@@ -68,6 +77,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -76,8 +86,10 @@ import TargetCustomers from '~/components/admin/TargetCustomers';
 import LandingPage from '~/components/admin/LandingPage';
 import Price from '~/components/admin/Price';
 import Status from '~/components/admin/Status';
+import MultiComponentMixin from '~/mixins/MultiComponentMixin';
 
 export default {
+  mixins: [MultiComponentMixin],
   layout: 'instructor',
   components: { 
     Header,
@@ -85,16 +97,6 @@ export default {
     LandingPage,
     Price,
     Status
-  },
-  computed: {
-    activeComponent() {
-      return this.steps[this.activeStep -1];
-    }
-  },
-  methods: {
-    navigateTo(step) {
-      this.activeStep = step;
-    }
   },
   data() {
     return {
@@ -104,7 +106,6 @@ export default {
         'Price', 
         'Status'
       ],
-      activeStep: 1
     }
   }
 }
@@ -133,6 +134,7 @@ export default {
             &.is-active {
               background-color: transparent;
               color: inherit;
+              border-left: 3px solid #58529f;
             }
           }
         }
