@@ -25,13 +25,13 @@
               <ul class="menu-list">
                 <li>
                   <!-- display Targetcustomers -->
-                  <a @click.prevent="() => {}"
+                  <a @click.prevent="navigateTo(1)"
                      :class="'active'">Target Your customers
                   </a>
                 </li>
                 <li>
                   <!-- display LandingPage -->
-                  <a @click.prevent="() => {}">
+                  <a @click.prevent="navigateTo(2)">
                     Product Landing Page
                   </a>
                 </li>
@@ -42,13 +42,13 @@
               <ul class="menu-list">
                 <li>
                   <!-- display Price -->
-                  <a @click.prevent="() => {}">
+                  <a @click.prevent="navigateTo(3)">
                     Price
                   </a>
                 </li>
                 <li>
                   <!-- display Status -->
-                  <a @click.prevent="() => {}">
+                  <a @click.prevent="navigateTo(4)">
                     Status
                   </a>
                 </li>
@@ -56,10 +56,13 @@
             </aside>
           </div>
           <div class="column">
-            <TargetCustomers />
-            <LandingPage />
-            <Price />
-            <Status />
+            <keep-alive>
+              <component :is="activeComponent" />
+              <!-- <TargetCustomers />
+              <LandingPage />
+              <Price />
+              <Status /> -->
+            </keep-alive>
           </div>
         </div>
       </div>
@@ -82,6 +85,27 @@ export default {
     LandingPage,
     Price,
     Status
+  },
+  computed: {
+    activeComponent() {
+      return this.steps[this.activeStep -1];
+    }
+  },
+  methods: {
+    navigateTo(step) {
+      this.activeStep = step;
+    }
+  },
+  data() {
+    return {
+      steps: [
+        'TargetCustomers', 
+        'LandingPage', 
+        'Price', 
+        'Status'
+      ],
+      activeStep: 1
+    }
   }
 }
 </script>
