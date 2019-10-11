@@ -3,7 +3,7 @@
     <label class="label">{{ label }}</label>
     <div
       v-for="(line, index) in lines"
-      :key="line.value"
+      :key="line.index"
       class="multi-field field">
       <div class="control multi-control">
         <div class="multi-input-container">
@@ -45,16 +45,32 @@ export default {
       required: true
     }
   },
+  computed: {
+    lastLine() {
+      return this.lines[this.lines.length - 1];
+    },
+    hasLines() {
+      return this.lines.length > 0;
+    },
+    hasLastLineValue() {
+      return this.lastLine && this.lastLine.value !== '';
+    },
+    canDeleteLine() {
+      return this.lines.length > 1;
+    },
+    canAddLine() {
+      return this.hasLines && this.hasLastLineValue;
+    }
+  },
   methods: {
     emitAdd() {
-      this.$emit('addClicked');
+      this.canAddLine && this.$emit('addClicked');
     },
     emitRemove(index) {
-      this.$emit('removeClicked', index);
+      this.canDeleteLine && this.$emit('removeClicked', index);
     },
     emitUpdate(event, index) {
       const value = event.target.value;
-      console.log(index)
       this.$emit('valueUpdated', {value, index})
     }
   }

@@ -8,6 +8,8 @@
         <label class="label">Price of the product</label>
         <div class="control">
           <input
+            :value="product.price"
+            @input="($event) => updateProductPrice($event, 'price')"
             class="input is-medium"
             type="text"
             placeholder="179.99">
@@ -17,6 +19,8 @@
         <label class="label">Discounted Price for the product</label>
         <div class="control">
           <input
+            :value="product.discountedPrice"
+            @input="($event) => updateProductPrice($event, 'discountedPrice')"
             class="input is-medium"
             type="text"
             placeholder="9.99">
@@ -28,7 +32,18 @@
 
 <script>
 export default {
-
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    updateProductPrice(event, field) {
+      const value = event.target.value;
+      this.$emit('productPriceUpdated', {value, field})
+    }
+  }
 }
 </script>
 

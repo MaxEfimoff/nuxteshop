@@ -8,7 +8,6 @@ const productSchema = new Schema({
   image: String,
   description: String,
   rating: Number,
-  // what students learn
   wsl: [{type: Schema.Types.Mixed, value: String}],
   requirements: [{type: Schema.Types.Mixed, value: String}],
   promoVideoLink: String,

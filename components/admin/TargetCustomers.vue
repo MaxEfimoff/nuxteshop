@@ -37,7 +37,7 @@ export default {
     product: {
       type: Object,
       required: true
-    }
+    },
   },
   methods: {
     addLine(field) {

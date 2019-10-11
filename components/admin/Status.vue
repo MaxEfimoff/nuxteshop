@@ -7,7 +7,10 @@
       <div class="field">
         <label class="label">Status</label>
         <div class="select is-medium">
-          <select>
+          <select
+            :value="product.status"
+            @change="($event) => updateProductStatus($event, 'status')"
+          >
             <option value="default">Change Status</option>
             <option value="active">
               Active
@@ -24,7 +27,18 @@
 
 <script>
 export default {
-
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    updateProductStatus(event, field) {
+      const value = event.target.value;
+      this.$emit('productStatusUpdated', {value, field})
+    }
+  }
 }
 </script>
 

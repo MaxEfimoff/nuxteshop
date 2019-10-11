@@ -7,7 +7,8 @@
       <template #actionMenu>
         <div class="full-page-takeover-header-button">
           <button
-            @click="() => {}"
+            @click="updateProduct"
+            :disabled="!canUpdateProduct"
             class="button is-primary is-inverted is-medium is-outlined">
             Save
           </button>
@@ -69,6 +70,10 @@
               <component
                 :is="activeComponent" 
                 :product="product"
+                @productValueUpdated="handleProductUpdate"
+                @productCategoryUpdated="handleCategoryUpdate"
+                @productPriceUpdated="handlePriceUpdate"
+                @productStatusUpdated="handleStatusUpdate"
                 />
             </keep-alive>
           </div>
@@ -92,12 +97,33 @@ import { mapState, mapActions } from 'vuex';
 export default {
   mounted() {
     this.getProduct(this.$route.params.id);
+    this.getCategories();
+
   },
   computed: {
-    ...mapState('admin', ['product']),
+    ...mapState('admin', ['product', 'canUpdateProduct']),
+    ...mapState('category', ['GetCategories']),
   },
   methods: {
     ...mapActions("admin", ['getProduct']),
+    ...mapActions("category", ['getCategories']),
+    handleProductUpdate({value, field}) {
+      this.$store.dispatch('admin/updateProductValue', {field, value})
+    },
+    handlePriceUpdate({value, field}) {
+      this.$store.dispatch('admin/updateProductPrice', {field, value})
+    },
+    handleStatusUpdate({value, field}) {
+      this.$store.dispatch('admin/updateProductStatus', {field, value})
+    },
+    handleCategoryUpdate(value) {
+      this.$store.dispatch('admin/updateProductCategory', value)
+    },
+    updateProduct() {
+      this.$store.dispatch('admin/updateProduct')
+      .then(() => this.$toasted.success('Product updated!'), {duration: 2000})
+      .catch((err) => this.$toasted.error('Somethind went wrong'), {duration: 2000})
+    }
   },
   mixins: [MultiComponentMixin],
   layout: 'instructor',

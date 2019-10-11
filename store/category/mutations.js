@@ -4,5 +4,5 @@ function SET_CATEGORIES(state, categories) {
 
 
 export {
-  SET_CATEGORIES
+  SET_CATEGORIES,
 };
