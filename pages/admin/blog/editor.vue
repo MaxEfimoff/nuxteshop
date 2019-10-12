@@ -6,19 +6,21 @@
     />
     <div class="blog-editor-container">
       <div class="container">
-        Editor
-        <!-- Editor Component here! -->
+        <Editor />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Header from '~/components/shared/Header'
+import Editor from '~/components/editor';
+import Header from '~/components/shared/Header';
+
 export default {
   layout: 'instructor',
   components: {
-    Header
+    Header,
+    Editor
   }
 }
 </script>
