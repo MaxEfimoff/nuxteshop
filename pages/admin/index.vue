@@ -23,7 +23,7 @@
             Products
           </div>
         </div>
-        <div class="box" @click="() => {}">
+        <div class="box" @click="() => $router.push('/admin/blogs')">
           <div>
             Blogs
           </div>
