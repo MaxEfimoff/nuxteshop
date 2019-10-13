@@ -1,5 +1,6 @@
 <template>
   <div class="editor editor-squished">
+    <BasicMenu :editor="editor"/>
     <BubbleMenu :editor="editor"/>
     <EditorContent 
       class="editor__content"
@@ -10,7 +11,12 @@
 
 <script>
 import { Editor, EditorContent } from 'tiptap';
-import BubbleMenu from '~/components/editor/BubbleMenu'
+import Subtitle from '~/components/editor/components/Subtitle';
+import Doc from '~/components/editor/components/Doc';
+import Title from '~/components/editor/components/Title';
+import BubbleMenu from '~/components/editor/BubbleMenu';
+import BasicMenu from '~/components/editor/BasicMenu';
+
 import { 
   Heading,
   Bold,
@@ -18,13 +24,21 @@ import {
   Italic,
   Strike,
   Underline,
-  History
+  History,
+  Blockquote,
+  HorizontalRule,
+  OrderedList,
+  BulletList,
+  ListItem,
+  CodeBlockHighlight,
+  Placeholder
 } from 'tiptap-extensions';
 
 export default {
   components: {
     EditorContent,
     BubbleMenu,
+    BasicMenu
   },
   data() {
     return {
@@ -40,7 +54,28 @@ export default {
         new Italic(),
         new Strike(),
         new Underline(),
-        new History()
+        new History(),
+        new Blockquote(),
+        new HorizontalRule(),
+        new OrderedList(),
+        new BulletList(),
+        new ListItem(),
+        new CodeBlockHighlight(),
+        new Doc(),
+        new Title(),
+        new Subtitle(),
+        new Placeholder({
+          showOnlyCurrent: false,
+          emptyNodeText: node => {
+            if (node.type.name === 'title') {
+              return 'Post title'
+            }
+            if (node.type.name === 'subtitle') {
+              return 'Post subtitle'
+            }
+            return 'Write something'
+          },
+        })
       ]
     })
   },
