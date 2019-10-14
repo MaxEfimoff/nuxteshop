@@ -64,6 +64,40 @@ function updateProductCategory({ commit }, value) {
   commit('SET_PRODUCT_CATEGORY', value);
 }
 
+function createBlogPost({ commit }, Data) {
+  return new Promise((resolve, reject) => {
+    axios.post('/api/blogs', Data)  
+      .then((blog) => { blog
+        // commit('SET_BLOG_POST', response.data);
+      })
+      .catch(error => console.log(error));
+  });
+}
+
+function updateBlogPost({ commit }, {data, id}) {
+  return new Promise((resolve, reject) => {
+    console.log(data)
+    axios.patch(`/api/blogs/${id}`, data)  
+      .then((response) => {
+        
+        commit('SET_BLOG_POST', response.data.content);
+      })
+      .catch(error => console.log(error));
+  });
+}
+
+function getBlogPost({ commit }, id) {
+  return new Promise((resolve, reject) => {
+    axios.get(`/api/blogs/${id}`)  
+      .then((response) => {
+        
+        commit('SET_BLOG_POST', response.data);
+        console.log(response.data)
+      })
+      .catch(error => console.log(error));
+  });
+}
+
 export {
   getUserProducts,
   createProduct,
@@ -73,5 +107,8 @@ export {
   updateProductPrice,
   updateProductStatus,
   updateProductCategory,
-  updateProduct
+  updateProduct,
+  getBlogPost,
+  createBlogPost,
+  updateBlogPost
 };

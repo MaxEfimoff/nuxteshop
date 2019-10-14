@@ -1,5 +1,8 @@
 
 module.exports = {
+  server: {
+    port: 80, // default: 3000
+  },
   mode: 'universal',
   /*
   ** Headers of the page

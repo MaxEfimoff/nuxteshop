@@ -1,6 +1,8 @@
 export default {
   products:[],
   product: {},
-  canUpdateProduct: false
+  canUpdateProduct: false,
+  blogs:[],
+  blog: {},
 };
 

@@ -38,6 +38,11 @@ function SET_CAN_UPDATE_PRODUCT(state, canUpdate) {
   state.canUpdateProduct = canUpdate;
 }
 
+function SET_BLOG_POST(state, blog) {
+  state.blog = blog;
+}
+
+
 export {
   SET_PRODUCTS,
   SET_PRODUCT,
@@ -48,5 +53,6 @@ export {
   SET_PRODUCT_PRICE,
   SET_PRODUCT_STATUS,
   SET_PRODUCT_CATEGORY,
-  SET_CAN_UPDATE_PRODUCT
+  SET_CAN_UPDATE_PRODUCT,
+  SET_BLOG_POST
 };
