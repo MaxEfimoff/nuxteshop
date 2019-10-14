@@ -76,11 +76,11 @@ function createBlogPost({ commit }, Data) {
 
 function updateBlogPost({ commit }, {data, id}) {
   return new Promise((resolve, reject) => {
-    console.log(data)
+    commit('SET_IS_SAVING', true);
     axios.patch(`/api/blogs/${id}`, data)  
       .then((response) => {
-        
         commit('SET_BLOG_POST', response.data.content);
+        commit('SET_IS_SAVING', false);
       })
       .catch(error => console.log(error));
   });

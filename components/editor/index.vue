@@ -1,7 +1,10 @@
 <template>
   <div class="editor editor-squished">
     <BasicMenu :editor="editor">
-      <button @click="emitUpdate" class="button is-success button-save">
+      <button
+        @click="emitUpdate"
+        :disabled="isSaving"
+        class="button is-success button-save">
         Save
       </button>
     </BasicMenu>
@@ -44,15 +47,16 @@ export default {
     BubbleMenu,
     BasicMenu
   },
-  props: {
-    isSaving: {
-      required: false,
-      default: false
-    }
-  },
   data() {
     return {
       editor: null
+    }
+  },
+  props: {
+    isSaving: {
+      // type: Boolean,
+      required: false,
+      default: false
     }
   },
   // This is called only on client (in browser)

@@ -51,6 +51,7 @@
         <editor
           @editorMounted="initBlogContent"
           @editorUpdated="updateBlogPost"
+          :isSaving="isSaving"
         />
       </div>
     </div>
@@ -70,9 +71,7 @@ export default {
     Editor, Header, Modal
   },
   computed: {
-    ...mapState({
-      blog: ({admin}) => admin.blog
-    })
+    ...mapState('admin', ['blog', 'isSaving'])
   },
   fetch ({ store, params }) {
     return axios.get(`/api/blogs/${params.id}`)
@@ -86,7 +85,11 @@ export default {
       initContent(this.blog.content);
     },
     updateBlogPost(blogData) {
-      this.$store.dispatch('admin/updateBlogPost', {data: blogData, id:this.blog._id})
+      if(!this.isSaving) {
+        this.$store.dispatch('admin/updateBlogPost', {data: blogData, id:this.blog._id})
+        .then(console.log('Blog post updated!'))
+        .catch(err => console.log(err)) 
+      }
     }
   }
 }

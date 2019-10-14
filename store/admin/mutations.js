@@ -42,6 +42,9 @@ function SET_BLOG_POST(state, blog) {
   state.blog = blog;
 }
 
+function SET_IS_SAVING(state, isSaving) {
+  state.isSaving = isSaving;
+}
 
 export {
   SET_PRODUCTS,
@@ -54,5 +57,6 @@ export {
   SET_PRODUCT_STATUS,
   SET_PRODUCT_CATEGORY,
   SET_CAN_UPDATE_PRODUCT,
-  SET_BLOG_POST
+  SET_BLOG_POST,
+  SET_IS_SAVING
 };

@@ -4,5 +4,6 @@ export default {
   canUpdateProduct: false,
   blogs:[],
   blog: {},
+  isSaving: false
 };
 
