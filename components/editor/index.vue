@@ -109,13 +109,17 @@ export default {
       this.editor.setContent(content)
       console.log('content', content)
     },
-    emitUpdate() {
+    getContent() {
       const html = this.editor.getHTML();
       const title = this.getNodeValueByName('title');
       const subtitle = this.getNodeValueByName('subtitle');
+
+      return { content: html, title, subtitle };
+    },
+    emitUpdate() {
+      const content = this.getContent();
       
-      
-      this.$emit('editorUpdated', { content: html, title, subtitle });
+      this.$emit('editorUpdated', content);
     },
     getNodeValueByName(name) {
       const docContent = this.editor.state.doc.content;

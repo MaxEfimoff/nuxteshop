@@ -5,10 +5,11 @@
       title="Write your blog"
       exitLink="/admin/blogs">
       <!-- TODO: Check if blog status is active -->
-      <template #actionMenu>
+      <template v-if="blog.status === 'active' " #actionMenu>
         <div class="full-page-takeover-header-button">
           <!-- TODO: Check blog validity before publishing -->
           <Modal
+            @submitted="updateBlogStatus($event, 'published')"
             @opened="checkBlogValidity"
             openTitle="Publish"
             openBtnClass="button is-success is-medium is-inverted is-outlined"
@@ -33,9 +34,10 @@
           </Modal>
         </div>
       </template>
-      <!-- <template v-else #actionMenu>
+      <template v-else #actionMenu>
         <div class="full-page-takeover-header-button">
           <Modal
+           @submitted="updateBlogStatus($event, 'active')"
             openTitle="Unpublish"
             openBtnClass="button is-success is-medium is-inverted is-outlined"
             title="Unpublish Blog">
@@ -44,7 +46,7 @@
             </div>
           </Modal>
         </div>
-      </template> -->
+      </template>
     </Header>
     <div class="blog-editor-container">
       <div class="container">
@@ -106,10 +108,21 @@ export default {
     },
     updateBlogPost(blogData) {
       if(!this.isSaving) {
-        this.$store.dispatch('admin/updateBlogPost', {data: blogData, id:this.blog._id})
+        this.$store.dispatch('admin/updateBlogPost', {data: blogData, id: this.blog._id})
         .then(console.log('Blog post updated!'))
         .catch(err => console.log(err)) 
       }
+    },
+    updateBlogStatus({closeModal}, status) {
+      const blogContent = this.$refs.editor.getContent();
+      blogContent.status = status;
+
+      const message = status === 'published' ? 'Blog post published!' : 'Blog post unpublished!';
+
+      this.$store.dispatch('admin/updateBlogPost', {data: blogContent, id: this.blog._id})
+      .then(console.log(message))
+      .then(closeModal())
+      .catch(err => console.log(err)) 
     },
     slugify(text) {
       return slugify(text, {
