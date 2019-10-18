@@ -46,6 +46,14 @@ function SET_IS_SAVING(state, isSaving) {
   state.isSaving = isSaving;
 }
 
+function SET_BLOGS(state, {resource, blogs}) {
+  state.blogs[resource] = blogs
+}
+
+function DELETE_BLOG_POST(state, {resource, index}) {
+  state.blogs[resource].splice(index, 1);
+}
+
 export {
   SET_PRODUCTS,
   SET_PRODUCT,
@@ -58,5 +66,7 @@ export {
   SET_PRODUCT_CATEGORY,
   SET_CAN_UPDATE_PRODUCT,
   SET_BLOG_POST,
-  SET_IS_SAVING
+  SET_IS_SAVING,
+  SET_BLOGS,
+  DELETE_BLOG_POST
 };

@@ -98,6 +98,39 @@ function getBlogPost({ commit }, id) {
   });
 }
 
+function deleteBlogPost({ commit, state }, blog) {
+  return new Promise((resolve, reject) => {
+    const resource = blog.status === 'active' ? 'drafts' : 'published';
+    axios.delete(`/api/blogs/${blog._id}`)  
+      .then((response) => {
+        const index = state.blogs[resource].findIndex((b) => b._id === blog._id)
+        commit('DELETE_BLOG_POST', {resource, index});
+      })
+      .catch(error => console.log(error));
+  });
+}
+
+function separateBlogs(blogs) {
+  const published = []
+  const drafts = []
+
+  blogs.forEach(blog => {
+    blog.status === 'active' ? drafts.push(blog) : published.push(blog)
+  })
+  return {published, drafts}
+}
+
+function getUserBlogPosts({commit, state}) {
+  return this.$axios.$get('/api/blogs/me')
+    .then(blogs => {
+      const { published, drafts } = separateBlogs(blogs)
+      commit('SET_BLOGS', {resource: 'drafts', blogs: drafts})
+      commit('SET_BLOGS', {resource: 'published', blogs: published})
+
+      return { published, drafts }
+    })
+}
+
 export {
   getUserProducts,
   createProduct,
@@ -110,5 +143,8 @@ export {
   updateProduct,
   getBlogPost,
   createBlogPost,
-  updateBlogPost
+  updateBlogPost,
+  getUserBlogPosts,
+  separateBlogs,
+  deleteBlogPost
 };

@@ -1,8 +1,11 @@
 export default {
-  products:[],
+  products: [],
   product: {},
   canUpdateProduct: false,
-  blogs:[],
+  blogs:{
+    drafts: [],
+    published: []
+  },
   blog: {},
   isSaving: false
 };
