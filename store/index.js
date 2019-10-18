@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import products from './products';
+import blogs from './blogs';
 import admin from './admin';
 import auth from './auth';
 import category from './category';
@@ -13,6 +14,7 @@ export default function () {
   const Store = new Vuex.Store({
     modules: {
       products,
+      blogs,
       admin,
       category,
       auth

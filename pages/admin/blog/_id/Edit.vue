@@ -37,7 +37,7 @@
       <template v-else #actionMenu>
         <div class="full-page-takeover-header-button">
           <Modal
-           @submitted="updateBlogStatus($event, 'active')"
+            @submitted="updateBlogStatus($event, 'active')"
             openTitle="Unpublish"
             openBtnClass="button is-success is-medium is-inverted is-outlined"
             title="Unpublish Blog">
@@ -109,7 +109,7 @@ export default {
     updateBlogPost(blogData) {
       if(!this.isSaving) {
         this.$store.dispatch('admin/updateBlogPost', {data: blogData, id: this.blog._id})
-        .then(console.log('Blog post updated!'))
+        .then(console.log(blogData))
         .catch(err => console.log(err)) 
       }
     },

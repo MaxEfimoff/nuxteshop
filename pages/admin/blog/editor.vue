@@ -6,7 +6,7 @@
     />
     <div class="blog-editor-container">
       <div class="container">
-        <Editor @editorSaved="saveBlogPost"/>
+        <Editor @editorUpdated="saveBlogPost"/>
       </div>
     </div>
   </div>
@@ -27,9 +27,10 @@ export default {
         await this.$store.dispatch('admin/createBlogPost', blogData)
       } catch(error) {
         console.log(error)
-      } finally {
-        blog => this.$router.push(`/admin/blog/${blog._id}/edit`)
-      }
+      } 
+      // finally {
+      //   blog => this.$router.push(`/admin/blog/${blog._id}/edit`)
+      // }
     }
   }
 }

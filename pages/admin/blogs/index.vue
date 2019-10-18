@@ -28,7 +28,7 @@
               <div v-if="blogs.drafts">
                 <div v-for="post in blogs.drafts" :key="post._id">
                   <div class="blog-card">
-                    <h2>{{ post.title }}</h2>
+                    <h2>{{ displayPostTitle(post) }}</h2>
                     <div class="blog-card-footer">
                       <span>
                         {{ post.updatedAt | formatDate}}
@@ -49,7 +49,7 @@
               <div v-if="blogs.published">
                 <div v-for="post in blogs.published" :key="post._id">
                   <div class="blog-card">
-                    <h2>{{ post.title }}</h2>
+                    <h2>{{ displayPostTitle(post) }}</h2>
                     <div class="blog-card-footer">
                       <span>
                         {{ post.updatedAt | formatDate}}
@@ -113,8 +113,10 @@ export default {
       if(isConfirm) {
         this.$store.dispatch('admin/deleteBlogPost', post)
       }
-    }
-      
+    },
+    displayPostTitle(blog) {
+      return blog.title || blog.subtitle || 'Blog without title or subtitle'
+    }  
   },
   components: {
     Header, Dropdown

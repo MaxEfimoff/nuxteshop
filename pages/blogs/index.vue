@@ -7,24 +7,13 @@
           <div class="column is-8">
             <!-- blog -->
             <div class="section">
-              <div class="post">
-                <div @click="() => {}" class="post-header clickable">
-                  <h4 class="title is-4">Some Blog Title</h4>
-                  <h5 class="subtitle is-5">Some Blog Subtitle</h5>
+              <div class="post" v-for="blog in blogs.all" :key="blog._id">
+                <div @click="$router.push(`/blogs/${blog.slug}`)" class="post-header clickable">
+                  <h4 class="title is-4">{{ blog.title }}</h4>
+                  <h5 class="subtitle is-5">{{ blog.subtitle }}</h5>
                 </div>
                 <div class="post-content">
-                  by Max Efi, Jul 1
-                </div>
-              </div>
-            </div>
-            <div class="section">
-              <div class="post">
-                <div @click="() => {}" class="post-header clickable">
-                  <h4 class="title is-4">Some Blog Title</h4>
-                  <h5 class="subtitle is-5">Some Blog Subtitle</h5>
-                </div>
-                <div class="post-content">
-                  by Max Efi, Jul 1
+                  by {{ blog.author.name }}, {{ blog.createdAt | formatDate }}
                 </div>
               </div>
             </div>
@@ -59,7 +48,18 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
+  created() {
+    this.getBlogPosts();
+  },
+  methods: {
+    ...mapActions('blogs', ['getBlogPosts']),
+  },
+  computed: {
+    ...mapState('blogs', ['blogs']),
+  }
 }
 </script>
 <style scoped>

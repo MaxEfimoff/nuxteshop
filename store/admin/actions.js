@@ -66,9 +66,12 @@ function updateProductCategory({ commit }, value) {
 
 function createBlogPost({ commit }, Data) {
   return new Promise((resolve, reject) => {
+    commit('SET_IS_SAVING', true);
     axios.post('/api/blogs', Data)  
-      .then((blog) => { blog
-        // commit('SET_BLOG_POST', response.data);
+      .then((response) => {
+        console.log(response) 
+        commit('SET_BLOG_POST', response.data.content);
+        commit('SET_IS_SAVING', false);
       })
       .catch(error => console.log(error));
   });
@@ -79,6 +82,7 @@ function updateBlogPost({ commit }, {data, id}) {
     commit('SET_IS_SAVING', true);
     axios.patch(`/api/blogs/${id}`, data)  
       .then((response) => {
+        console.log(response) 
         commit('SET_BLOG_POST', response.data.content);
         commit('SET_IS_SAVING', false);
       })
