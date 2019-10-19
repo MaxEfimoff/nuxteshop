@@ -40,6 +40,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .card {
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 4px 0px;
+  }
+  .card-image img {
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+  }
   .card-image:hover {
     cursor: pointer;
     opacity: 0.9;

@@ -65,13 +65,13 @@ export default {
     justify-content: center;
     &:hover {
       cursor: pointer;
-      background-color: #58529f;
+      background-color: #5f5f5f;
       color: white;
       transition: background-color 0.3s ease-out;
     }
     > div {
       align-self: center;
-      font-size: 50px;
+      font-size: 35px;
       font-weight: bold;
     }
   }

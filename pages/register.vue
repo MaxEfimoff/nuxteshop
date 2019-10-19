@@ -171,6 +171,7 @@
 <script>
 import { required, email, minLength, url, sameAs } from 'vuelidate/lib/validators';
 import { supportedFileType } from '@/helpers/validators'
+import axios from 'axios';
 
 export default {
   middleware: 'guest',
@@ -222,7 +223,7 @@ export default {
       this.$v.formData.$touch();
       
       if(!this.$v.$invalid) {
-        this.$store.dispatch('auth/register', this.formData)
+        axios.post('/api/users/register', this.formData) 
         .then(() => this.$router.push('/login'))
         .catch((error) => this.$toasted.show('Wrong email or password'), {duration: 2000})
       }

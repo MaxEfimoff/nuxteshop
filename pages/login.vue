@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { required, email } from 'vuelidate/lib/validators';
 
 export default {
@@ -90,7 +91,10 @@ export default {
       this.$v.formData.$touch();
 
       if(!this.$v.$invalid) {
-        this.$store.dispatch('auth/login', this.formData)
+        axios.post('/api/users/login', this.formData)  
+        .then((response) => {
+          this.$store.commit('auth/SET_USER', response.data);
+        })
         .then(() => this.$router.push('/'))
         .catch((error) => this.$toasted.show('Wrong email or password'), {duration: 2000})
       }

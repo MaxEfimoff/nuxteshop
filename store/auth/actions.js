@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+
+// Doesn't work from here(
 function login({ commit }, data) {
   return new Promise((resolve, reject) => {
     axios.post('/api/users/login', data)  

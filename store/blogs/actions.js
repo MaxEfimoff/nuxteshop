@@ -1,11 +1,16 @@
 import axios from 'axios';
 
-function getBlogPosts({ commit, state }) {
+function getBlogPosts({ commit, state }, filter) {
   return new Promise((resolve, reject) => {
-    axios.get('/api/blogs')  
+    console.log(filter.pageSize)
+    axios.get(`http://localhost/api/blogs?pageNum=${filter.pageNum}&pageSize=${filter.pageSize}`)  
+    // axios.get('http://localhost/api/blogs?pageNum=1&pageSize=2')  
       .then(data => {
         const blogs = data.data.blogs;
+        const count = data.data.count;
+        const pageCount = data.data.pageCount;
         commit('SET_BLOG_POSTS', {resource: 'all', blogs});
+        commit('SET_PAGINATION', {count, pageCount})
         return state.blogs.all
       })
       .catch(error => console.log(error));

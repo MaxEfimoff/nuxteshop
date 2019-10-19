@@ -19,7 +19,17 @@
             </div>
             <!-- end of blog -->
             <!-- pagination -->
-            <div class="section">
+            <div class="section" v-if="pagination.pageCount && pagination.pageCount > 1">
+              <no-ssr placrholder="Loading...">  
+                <paginate
+                  v-model="currentPage"
+                  :page-count="pagination.pageCount"
+                  :click-handler="getBlogs"
+                  :prev-text="'Prev'"
+                  :next-text="'Next'"
+                  :container-class="'paginationContainer'">
+                </paginate>
+              </no-ssr>
             </div>
             <!-- end of pagination -->
           </div>
@@ -52,14 +62,32 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   created() {
-    this.getBlogPosts();
+    const filter = {};
+    filter.pageNum = 1;
+    filter.pageSize = 6;
+
+    this.getBlogPosts(filter);
     this.getFeaturedBlogPosts();
   },
   methods: {
     ...mapActions('blogs', ['getBlogPosts', 'getFeaturedBlogPosts']),
+    getBlogs() {
+      const filter = {};
+      filter.pageSize = this.pagination.pageSize;
+      filter.pageNum = this.pagination.currentPage;
+      this.$store.dispatch('blogs/getBlogPosts', filter)
+    }
   },
   computed: {
-    ...mapState('blogs', ['blogs']),
+    ...mapState('blogs', ['blogs', 'pagination']),
+    currentPage: {
+      get() {
+        return this.$store.state.pageNum;
+      },
+      set(value) {
+        this.$store.commit('blogs/SET_PAGE', value);
+      }
+    }
   }
 }
 </script>
