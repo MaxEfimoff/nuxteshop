@@ -33,8 +33,8 @@
                 </div>
                 <div class="sidebar-list">
                   <!-- Featured Blogs -->
-                  <p>
-                    <nuxt-link :to="``">Some favorite blog</nuxt-link>
+                  <p v-for="blog in blogs.featured" :key="blog._id">
+                    <nuxt-link :to="`/blogs/${blog.slug}`">{{ blog.title }}</nuxt-link>
                   </p>
                   <!-- Featured Blogs -->
                 </div>
@@ -53,9 +53,10 @@ import { mapState, mapActions } from 'vuex';
 export default {
   created() {
     this.getBlogPosts();
+    this.getFeaturedBlogPosts();
   },
   methods: {
-    ...mapActions('blogs', ['getBlogPosts']),
+    ...mapActions('blogs', ['getBlogPosts', 'getFeaturedBlogPosts']),
   },
   computed: {
     ...mapState('blogs', ['blogs']),

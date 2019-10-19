@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 function SET_PRODUCTS(state, products) {
   state.products = products;
 }
@@ -54,6 +56,10 @@ function DELETE_BLOG_POST(state, {resource, index}) {
   state.blogs[resource].splice(index, 1);
 }
 
+function SET_PUBLISHED_BLOG_POST(state, {blog, index}) {
+  Vue.set(state.items.published, index, blog)
+}
+
 export {
   SET_PRODUCTS,
   SET_PRODUCT,
@@ -68,5 +74,6 @@ export {
   SET_BLOG_POST,
   SET_IS_SAVING,
   SET_BLOGS,
-  DELETE_BLOG_POST
+  DELETE_BLOG_POST,
+  SET_PUBLISHED_BLOG_POST
 };

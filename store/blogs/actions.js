@@ -12,6 +12,18 @@ function getBlogPosts({ commit, state }) {
   });
 }
 
+function getFeaturedBlogPosts({ commit, state }) {
+  return new Promise((resolve, reject) => {
+    axios.get('/api/blogs?filter[featured]=true')  
+      .then(data => {
+        const blogs = data.data.blogs;
+        commit('SET_BLOG_POSTS', {resource: 'featured', blogs});
+        return state.blogs.fetured
+      })
+      .catch(error => console.log(error));
+  });
+}
+
 function getBlogPostBySlug({ commit, state }, slug) {
   return new Promise((resolve, reject) => {
     axios.get(`/api/blogs/s/${slug}`)  
@@ -24,5 +36,6 @@ function getBlogPostBySlug({ commit, state }, slug) {
 
 export {
   getBlogPosts,
-  getBlogPostBySlug
+  getBlogPostBySlug,
+  getFeaturedBlogPosts
 };

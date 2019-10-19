@@ -69,7 +69,7 @@ function createBlogPost({ commit }, Data) {
     commit('SET_IS_SAVING', true);
     axios.post('/api/blogs', Data)  
       .then((response) => {
-        console.log(response) 
+        console.log(response);
         commit('SET_BLOG_POST', response.data.content);
         commit('SET_IS_SAVING', false);
       })
@@ -82,9 +82,20 @@ function updateBlogPost({ commit }, {data, id}) {
     commit('SET_IS_SAVING', true);
     axios.patch(`/api/blogs/${id}`, data)  
       .then((response) => {
-        console.log(response) 
+        console.log(response);
         commit('SET_BLOG_POST', response.data.content);
         commit('SET_IS_SAVING', false);
+      })
+      .catch(error => console.log(error));
+  });
+}
+
+function updatePublishedBlogPost({ commit }, {id, data}) {
+  return new Promise((resolve, reject) => {
+    axios.patch(`/api/blogs/${id}`, data)  
+      .then((response) => {
+        console.log(response);
+        commit('SET_BLOG_POST', response.data.content);
       })
       .catch(error => console.log(error));
   });
@@ -93,10 +104,11 @@ function updateBlogPost({ commit }, {data, id}) {
 function getBlogPost({ commit }, id) {
   return new Promise((resolve, reject) => {
     axios.get(`/api/blogs/${id}`)  
-      .then((response) => {
-        
-        commit('SET_BLOG_POST', response.data);
-        console.log(response.data)
+      .then((blog) => {
+        const index = state.blogs['published'].findIndex(b => b._id === blog._id)
+        ;
+        commit('SET_PUBLISHED_BLOG_POST', {index, blog});
+        return blog;
       })
       .catch(error => console.log(error));
   });
@@ -107,7 +119,7 @@ function deleteBlogPost({ commit, state }, blog) {
     const resource = blog.status === 'active' ? 'drafts' : 'published';
     axios.delete(`/api/blogs/${blog._id}`)  
       .then((response) => {
-        const index = state.blogs[resource].findIndex((b) => b._id === blog._id)
+        const index = state.blogs[resource].findIndex((b) => b._id === blog._id);
         commit('DELETE_BLOG_POST', {resource, index});
       })
       .catch(error => console.log(error));
@@ -115,21 +127,21 @@ function deleteBlogPost({ commit, state }, blog) {
 }
 
 function separateBlogs(blogs) {
-  const published = []
-  const drafts = []
+  const published = [];
+  const drafts = [];
 
   blogs.forEach(blog => {
-    blog.status === 'active' ? drafts.push(blog) : published.push(blog)
+    blog.status === 'active' ? drafts.push(blog) : published.push(blog);
   })
-  return {published, drafts}
+  return {published, drafts};
 }
 
 function getUserBlogPosts({commit, state}) {
   return this.$axios.$get('/api/blogs/me')
     .then(blogs => {
-      const { published, drafts } = separateBlogs(blogs)
-      commit('SET_BLOGS', {resource: 'drafts', blogs: drafts})
-      commit('SET_BLOGS', {resource: 'published', blogs: published})
+      const { published, drafts } = separateBlogs(blogs);
+      commit('SET_BLOGS', {resource: 'drafts', blogs: drafts});
+      commit('SET_BLOGS', {resource: 'published', blogs: published});
 
       return { published, drafts }
     })
@@ -150,5 +162,6 @@ export {
   updateBlogPost,
   getUserBlogPosts,
   separateBlogs,
-  deleteBlogPost
+  deleteBlogPost,
+  updatePublishedBlogPost
 };

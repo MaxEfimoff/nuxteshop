@@ -47,7 +47,10 @@
 
             <template v-if="activeTab === 1">
               <div v-if="blogs.published">
-                <div v-for="post in blogs.published" :key="post._id">
+                <div
+                  v-for="post in blogs.published"
+                  :key="post._id"
+                  :class="{featured: post.featured}">
                   <div class="blog-card">
                     <h2>{{ displayPostTitle(post) }}</h2>
                     <div class="blog-card-footer">
@@ -56,7 +59,7 @@
                       </span>
                       <Dropdown
                         @optionChanged="handleOption($event, post)"
-                        :items="publishedOptions"/>
+                        :items="publishedOptions(post.featured)"/>
                     </div>
                   </div>
                 </div>
@@ -90,9 +93,6 @@ export default {
   },
   computed: {
     ...mapState('admin', ['blogs']),
-    publishedOptions() {
-      return createPublishedOptions();
-    },
     draftsOptions() {
       return createDraftsOptions();
     }
@@ -107,6 +107,10 @@ export default {
       if(command === commands.DELETE_BLOG) {
         this.dasplayDeleteWarning(post)
       }
+
+      if(command === commands.TOGGLE_FEATURE) {
+        this.updateBlogPost(post)
+      }
     },
     dasplayDeleteWarning(post) {
       const isConfirm = confirm('Are you shure you want to delet this post?');
@@ -114,9 +118,17 @@ export default {
         this.$store.dispatch('admin/deleteBlogPost', post)
       }
     },
-    displayPostTitle(blog) {
-      return blog.title || blog.subtitle || 'Blog without title or subtitle'
-    }  
+    displayPostTitle(post) {
+      return post.title || post.subtitle || 'Blog without title or subtitle'
+    },
+    publishedOptions(isFeatured) {
+      return createPublishedOptions(isFeatured);
+    },
+    updateBlogPost(post) {
+      const featured =!post.featured
+      this.$store.dispatch('admin/updatePublishedBlogPost', {id: post._id, data: {featured}})
+      .then(console.log('Blog post has been published!'))
+    }
   },
   components: {
     Header, Dropdown
@@ -125,6 +137,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .featured {
+    border-left: 8px solid #3cc314;
+    padding-left: 10px;
+    transition: border ease-out 0.2s;
+  }
   .is-active {
     border-bottom: 1px solid #363636
   }
@@ -140,11 +157,6 @@ export default {
     }
     &-footer {
       color: rgba(0, 0, 0, 0.54);
-    }
-    &.featured {
-      border-left: 5px solid #3cc314;
-      padding-left: 10px;
-      transition: border ease-out 0.2s;
     }
   }
   .header-block {
