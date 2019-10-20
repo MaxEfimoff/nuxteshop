@@ -63,8 +63,8 @@ import { mapState, mapActions } from 'vuex';
 export default {
   created() {
     const filter = {};
-    filter.pageNum = 1;
-    filter.pageSize = 6;
+    filter.pageNum = this.$store.state.blogs.pagination.pageNum;
+    filter.pageSize = this.$store.state.blogs.pagination.pageSize;
 
     this.getBlogPosts(filter);
     this.getFeaturedBlogPosts();

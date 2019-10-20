@@ -4,7 +4,7 @@
     <section class="section">
       <div class="container">
         <h1 class="title">Bikes Avaible</h1>
-        <div class="columns">
+        <div class="columns is-multiline">
           <div
             v-for="product in products"
             :key="product._id"
@@ -15,11 +15,13 @@
       </div>
     </section>
     <section class="section">
-      <div class="container">
+      <div
+        class="container">
         <h1 class="title">Featured Articles</h1>
-        <div class="columns">
-          <div class="column is-one-quarter">
-            <BlogCard />
+        <div class="columns is-multiline">
+          <div v-for="blog in blogs.featured" :key="blog._id" class="column is-one-quarter">
+            <BlogCard 
+              :blog="blog"/>
           </div>
         </div>
       </div>
@@ -38,12 +40,16 @@ export default {
   components: {Banner, ItemCard, BlogCard},
   mounted() {
     this.getProducts();
+    this.getFeaturedBlogPosts();
   },
   computed: {
     ...mapState('products', ['products']),
+    ...mapState('blogs', ['blogs']),
   },
   methods: {
     ...mapActions("products", ['getProducts']),
+    ...mapActions('blogs', ['getBlogPosts', 'getFeaturedBlogPosts']),
+    
   },
 }
 </script>
