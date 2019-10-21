@@ -147,6 +147,26 @@ function getUserBlogPosts({commit, state}) {
     })
 }
 
+function getPromos({ commit }) {
+  return new Promise((resolve, reject) => {
+    axios.get(`/api/product-heroes`)  
+      .then((response) => {
+        commit('SET_PROMOS', response.data);
+      })
+      .catch(error => console.log(error));
+  });
+}
+
+function activatePromo({ commit }, promoId) {
+  return new Promise((resolve, reject) => {
+    axios.fetch(`/api/product-heroes/${promoId}`)
+    .then((response) => {
+      commit('SET_HERO', response.data);
+    })
+    .catch(error => console.log(error));
+  });
+}
+
 export {
   getUserProducts,
   createProduct,
@@ -163,5 +183,7 @@ export {
   getUserBlogPosts,
   separateBlogs,
   deleteBlogPost,
-  updatePublishedBlogPost
+  updatePublishedBlogPost,
+  getPromos,
+  activatePromo
 };

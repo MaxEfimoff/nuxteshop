@@ -60,6 +60,10 @@ function SET_PUBLISHED_BLOG_POST(state, {blog, index}) {
   Vue.set(state.items.published, index, blog)
 }
 
+function SET_PROMOS(state, promos) {
+  state.promos = promos
+}
+
 export {
   SET_PRODUCTS,
   SET_PRODUCT,
@@ -75,5 +79,6 @@ export {
   SET_IS_SAVING,
   SET_BLOGS,
   DELETE_BLOG_POST,
-  SET_PUBLISHED_BLOG_POST
+  SET_PUBLISHED_BLOG_POST,
+  SET_PROMOS
 };

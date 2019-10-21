@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Banner />
+    <Promo
+      :promo="promo"
+    />
     <section class="section">
       <div class="container">
         <h1 class="title">Bikes Avaible</h1>
@@ -30,23 +32,32 @@
 </template>
 
 <script>
-import Banner from '~/components/shared/Banner';
+import Promo from '~/components/shared/Promo';
 import ItemCard from '~/components/ItemCard';
 import BlogCard from '~/components/BlogCard';
 
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  components: {Banner, ItemCard, BlogCard},
-  mounted() {
+  components: {Promo, ItemCard, BlogCard},
+  // fetch({store}) {
+  //   store.dispatch('promos/getPromo')
+  // },
+  created() {
+    this.getPromo();
     this.getProducts();
     this.getFeaturedBlogPosts();
   },
   computed: {
     ...mapState('products', ['products']),
     ...mapState('blogs', ['blogs']),
+    ...mapState('promos', ['promo']),
+    ...mapState({coursePromo: state => {
+      return state.promos.promo || {}
+      }})
   },
   methods: {
+    ...mapActions("promos", ['getPromo']),
     ...mapActions("products", ['getProducts']),
     ...mapActions('blogs', ['getBlogPosts', 'getFeaturedBlogPosts']),
     

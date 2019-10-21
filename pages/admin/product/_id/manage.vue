@@ -13,6 +13,52 @@
             Save
           </button>
         </div>
+        <div class="full-page-takeover-header-button">
+          <Modal
+            openTitle="Favorite"
+            openBtnClass="button is-primary is-inverted is-medium is-outlined"
+            title="Make product Promo"
+            @opened="applyPromoValues"
+            @submitted="createPromo">
+            <div>
+              <form>
+                <div class="field">
+                  <label class="label">Promo title</label>
+                  <span class="label-info">Suggested 64 Characters</span>
+                  <div class="control">
+                    <input
+                      class="input is-medium"
+                      type="text"
+                      v-model="productPromo.title"
+                      placeholder="Amazing product discount">
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Promo subtitle</label>
+                  <span class="label-info">Suggested 128 Characters</span>
+                  <input
+                    class="input is-medium"
+                    type="text"
+                    v-model="productPromo.subtitle"
+                    placeholder="Get all of the product for 9.99$">
+                </div>
+                <div class="field">
+                  <label class="label">Product image</label>
+                  <span class="label-info">Image in format 3 by 1 (720 x 240)</span>
+                  <input
+                    class="input is-medium"
+                    type="text"
+                    v-model="productPromo.image"
+                    placeholder="Some image in format 3 by 1 (720 x 240)">
+                  <figure class="image is-3by1">
+                    <img :src="productPromo.image">
+                  </figure>
+                </div>
+              </form>
+            </div>
+          </Modal>
+        </div>
+
       </template>
     </Header>
     <div class="product-manage">
@@ -91,6 +137,7 @@ import LandingPage from '~/components/admin/LandingPage';
 import Price from '~/components/admin/Price';
 import Status from '~/components/admin/Status';
 import MultiComponentMixin from '~/mixins/MultiComponentMixin';
+import Modal from '~/components/shared/Modal';
 
 import { mapState, mapActions } from 'vuex';
 
@@ -123,6 +170,19 @@ export default {
       this.$store.dispatch('admin/updateProduct')
       .then(() => this.$toasted.success('Product updated!'), {duration: 2000})
       .catch((err) => this.$toasted.error('Somethind went wrong'), {duration: 2000})
+    },
+    applyPromoValues() {
+      !this.productPromo.title && this.$set(this.productPromo, 'title', this.product.title);
+      !this.productPromo.subtitle && this.$set(this.productPromo, 'subtitle', this.product.subtitle);
+      this.$set(this.productPromo, 'image', this.product.image);
+    },
+    createPromo({closeModal}) {
+      const promoData = {...this.productPromo};
+      promoData.product = {...this.product};
+      this.$store.dispatch('promos/createPromo', promoData)
+      .then(() => {
+        closeModal()
+      })
     }
   },
   mixins: [MultiComponentMixin],
@@ -132,7 +192,8 @@ export default {
     TargetCustomers,
     LandingPage,
     Price,
-    Status
+    Status,
+    Modal
   },
   data() {
     return {
@@ -142,6 +203,11 @@ export default {
         'Price', 
         'Status'
       ],
+      productPromo: {
+        title: '',
+        subtitle: '',
+        image: ''
+      }
     }
   }
 }

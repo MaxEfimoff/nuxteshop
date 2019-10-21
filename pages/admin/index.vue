@@ -18,19 +18,19 @@
     </Header>  
     <div class="centered">
       <div class="columns">
-        <div class="box" @click="() => $router.push('/admin/products')">
+        <div class="box" @click="$router.push('/admin/products')">
           <div>
             Products
           </div>
         </div>
-        <div class="box" @click="() => $router.push('/admin/blogs')">
+        <div class="box" @click="$router.push('/admin/blogs')">
           <div>
             Blogs
           </div>
         </div>
-        <div class="box" @click="() => {}">
+        <div class="box" @click="$router.push('/admin/promos')">
           <div>
-            Users
+            Promos
           </div>
         </div>
       </div>

@@ -7,6 +7,8 @@ export default {
     published: []
   },
   blog: {},
-  isSaving: false
+  isSaving: false,
+  promos: [],
+  promo: {}
 };
 

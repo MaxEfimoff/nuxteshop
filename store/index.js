@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import products from './products';
 import blogs from './blogs';
+import promos from './promos';
 import admin from './admin';
 import auth from './auth';
 import category from './category';
@@ -15,6 +16,7 @@ export default function () {
     modules: {
       products,
       blogs,
+      promos,
       admin,
       category,
       auth
