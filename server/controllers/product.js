@@ -83,18 +83,18 @@ exports.updateProduct = function (req, res) {
   const productData = req.body;
 
   Product.findById(productId)
-        .populate('category')
-        .exec((errors, product) => {
-    if (errors) {
-      return res.status(422).send(errors);
-    }
+    .populate('category')
+    .exec((errors, product) => {
+  if (errors) {
+    return res.status(422).send(errors);
+  }
 
     if (productData.status && productData.status === 'published' && !product.slug) {
     product.slug = slugify(product.title, {
-                                replacement: '-',    // replace spaces with replacement
-                                remove: null,        // regex to remove characters
-                                lower: true          // result in lower case
-                              });
+      replacement: '-',    // replace spaces with replacement
+      remove: null,        // regex to remove characters
+      lower: true          // result in lower case
+    });
     }
 
     product.set(productData);

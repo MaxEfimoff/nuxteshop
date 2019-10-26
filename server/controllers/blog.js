@@ -4,7 +4,7 @@ const request = require('request');
 const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
 
-const MEDIUM_URL = "https://medium.com/@filipjerga/latest?format=json&limit=20";
+const MEDIUM_URL = "https://medium.com/";
 
 function parseFilters(queries) {
   const parsedQueries = {};
@@ -106,10 +106,10 @@ exports.updateBlog = (req, res) => {
     if (blogData.status && blogData.status === 'published' && !foundBlog.slug) {
 
       foundBlog.slug = slugify(foundBlog.title, {
-                                  replacement: '-',    // replace spaces with replacement
-                                  remove: null,        // regex to remove characters
-                                  lower: true          // result in lower case
-                                });
+        replacement: '-',    // replace spaces with replacement
+        remove: null,        // regex to remove characters
+        lower: true          // result in lower case
+      });
 
       }
 

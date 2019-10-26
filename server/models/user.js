@@ -22,8 +22,6 @@ const userSchema = new Schema({
     maxlength: [32, 'Too long, max is 32 characters'],
     required: 'Password is required'
   },
-  // Very simplified you should have separate collection with roles
-  // You can create also array of roles in case of multiple roles
   role: {
     enum: ['guest', 'admin'],
     type: String, required: true, default: 'guest'

@@ -18,9 +18,9 @@ exports.createHero = function (req, res, next) {
 exports.getProductHeroes = function(req, res, next) {
 
   ProductHero.find({})
-            .populate('product')
-            .sort({createdAt: -1})
-            .exec(function(errors, heroes) {
+    .populate('product')
+    .sort({createdAt: -1})
+    .exec(function(errors, heroes) {
     if (errors) {
       return res.status(422).send(errors);
     }
@@ -33,8 +33,8 @@ exports.updateProductHeroes = function(req, res, next) {
   const id = req.params.id;
 
   ProductHero.findById(id)
-            .populate('product')
-            .exec(function(errors, hero) {
+    .populate('product')
+    .exec(function(errors, hero) {
     if (errors) {
       return res.status(422).send(errors);
     }
