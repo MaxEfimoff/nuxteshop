@@ -30,13 +30,10 @@
         <div class="field">
           <label class="label">product description</label>
           <div class="control">
-            <textarea
-              :value="product.description"
-              @input="($event) => productValueUpdated($event, 'description')"
-              class="textarea is-medium"
-              type="text"
-              placeholder="Write something catchy about the product">
-            </textarea>
+            <ProductEditor
+              :initialContent="product.description"
+              @editorUpdated="(content) => productValueUpdated(content, 'description')"
+              />
           </div>
         </div>
         <div class="field">
@@ -106,6 +103,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import ProductEditor from '~/components/editor/ProductEditor'
 
 export default {
   mounted() {
@@ -119,7 +117,10 @@ export default {
   },
   methods: {
     productValueUpdated(event, field) {
-      const value = event.target.value;
+      // const value = event.target.value;
+
+      const value = event.target ? event.target.value : event
+
       this.$emit('productValueUpdated', {value, field})
     },
     productCategoryUpdated(event) {
@@ -131,6 +132,9 @@ export default {
   },
   computed: {
     ...mapState('category', ['categories'])
+  },
+  components: {
+    ProductEditor
   }
 }
 </script>
