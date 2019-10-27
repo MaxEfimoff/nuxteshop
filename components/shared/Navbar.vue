@@ -4,34 +4,32 @@
       <nuxt-link class="navbar-item" to="/">
         <h1 class="brand-title">NUXT eShop</h1>
       </nuxt-link>
-      <!-- Adds click to open -->
-      <!-- Adds active class -->
-      <a @click="() => {}"
-         role="button"
-         class="navbar-burger burger"
-         aria-label="menu"
-         aria-expanded="false"
-         data-target="navbarBasicExample">
+      <a @click="isActive =! isActive"
+        :class="{'is-active': isActive}"
+        role="button"
+        class="navbar-burger burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
-
-    <!-- Adds active class -->
     <div id="navbarBasicExample"
-         class="navbar-menu">
+      :class="{'is-active': isActive}"
+      class="navbar-menu">
       <div class="navbar-start">
         <nuxt-link to="/" class="navbar-item">
           Home
         </nuxt-link>
-        <nuxt-link to="#" class="navbar-item">
-          Items
+        <nuxt-link to="/products" class="navbar-item">
+          Products
         </nuxt-link>
         <nuxt-link to="/blogs" class="navbar-item">
           Blogs
         </nuxt-link>
-        <nuxt-link to="#" class="navbar-item">
+        <nuxt-link to="/about" class="navbar-item">
           About
         </nuxt-link>
       </div>
@@ -76,6 +74,11 @@
 import { mapGetters, mapState } from 'vuex';
 
 export default {
+  data() {
+    return {
+      isActive: false
+    }
+  },
   computed: {
     ...mapGetters('auth', ['isAuthenticated', 'isAdmin']),
     ...mapState('auth', ['user']),
