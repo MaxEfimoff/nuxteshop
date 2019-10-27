@@ -10,7 +10,17 @@ function getProducts({ commit }) {
   });
 }
 
+function getProductBySlug({ commit, state }, slug) {
+  return new Promise((resolve, reject) => {
+    axios.get(`/api/products/s/${slug}`)  
+      .then((response) => {
+        commit('SET_PRODUCT', response.data);
+      })
+      .catch(error => console.log(error));
+  });
+}
 
 export {
   getProducts,
+  getProductBySlug
 };

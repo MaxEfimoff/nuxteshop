@@ -22,7 +22,7 @@
       </div>
     </div>
     <footer class="card-footer">
-      <nuxt-link :to="''" class="card-footer-item">Learn More</nuxt-link>
+      <nuxt-link :to="`/products/${product.slug}`" class="card-footer-item">Learn More</nuxt-link>
       <a target="_" :href="product.productLink" class="card-footer-item">Buy</a>
     </footer>
   </div>
